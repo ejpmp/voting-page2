@@ -58,7 +58,7 @@
                     var voteValue = selectedOption.value;
                     votes[voteValue]++;
                     document.getElementById("result").innerHTML = "You voted for Option " + voteValue;
-                    updateVoteCount();
+                    updateVoteCount(); // Update vote count after vote submission
                     updateProgressBar();
                     showThankYouMessage();
                     disableForm();
