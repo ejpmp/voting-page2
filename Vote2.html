@@ -101,12 +101,11 @@
 
         function displayAllVotes() {
             var allVotesHTML = "All Votes:<br>";
-            allVotes.forEach(function(vote, index) {
-                allVotesHTML += "Vote " + (index + 1) + ": Option " + vote + "<br>";
+            allVotes.forEach(function(vote) {
+                allVotesHTML += "Option " + vote + "<br>";
             });
             document.getElementById("allVotes").innerHTML = allVotesHTML;
         }
     </script>
 </body>
 </html>
-
