@@ -1,55 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport"
-		content="width=device-width, 
-				initial-scale=1.0">
-	<title>User Polls</title>
-	<link rel="stylesheet" href="./style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vote Poll</title>
+<style>
+    .poll-container {
+        max-width: 400px;
+        margin: 0 auto;
+    }
+</style>
 </head>
-
 <body>
-	<div class="container">
-		<h1 class="poll-question">
-		Do you like programming?
-		</h1>
-		<form id="poll-form" class="poll-form">
-			<label>
-				<input type="radio"
-					name="vote"
-					value="yes"> Yes
-			</label>
-			<label>
-				<input type="radio"
-					name="vote"
-					value="no"> No
-			</label>
-			<button type="submit"
-					class="vote-button">
-			Vote
-			</button>
-		</form>
-		<div id="results" class="results">
-			<h2 class="results-title">
-			Results
-			</h2>
-			<div class="results-count">
-				<p>Yes: 
-				<span id="yes-count"
-						class="count">0
-				</span>
-				</p>
-				<p>No: 
-				<span id="no-count"
-							class="count">0
-				</span>
-				</p>
-			</div>
-		</div>
-	</div>
-	<script src="./script.js"></script>
-</body>
+<div class="poll-container">
+    <h2>Vote Poll</h2>
+    <form id="pollForm">
+        <label for="option1">Option 1:</label>
+        <input type="radio" name="vote" id="option1" value="option1">
+        <label for="option2">Option 2:</label>
+        <input type="radio" name="vote" id="option2" value="option2">
+        <label for="option3">Option 3:</label>
+        <input type="radio" name="vote" id="option3" value="option3">
+        <button type="submit">Vote</button>
+    </form>
+    <div id="result"></div>
+</div>
 
+<script>
+    // Initialize vote counts
+    let voteCounts = {
+        option1: 0,
+        option2: 0,
+        option3: 0
+    };
+
+    // Function to update vote counts and display results
+    function updateVoteCounts() {
+        let resultDiv = document.getElementById("result");
+        resultDiv.innerHTML = `
+            Option 1: ${voteCounts.option1} vote(s)<br>
+            Option 2: ${voteCounts.option2} vote(s)<br>
+            Option 3: ${voteCounts.option3} vote(s)
+        `;
+    }
+
+    document.getElementById("pollForm").addEventListener("submit", function(event) {
+        event.preventDefault();
+        let selectedOption = document.querySelector('input[name="vote"]:checked');
+        if (selectedOption) {
+            let vote = selectedOption.value;
+            // Update vote count
+            voteCounts[vote]++;
+            // Display results
+            updateVoteCounts();
+            // Simulate sending vote data to server (You can replace this with actual server-side code)
+            console.log("Voted for: ", vote);
+        } else {
+            alert("Please select an option to vote.");
+        }
+    });
+</script>
+</body>
 </html>
