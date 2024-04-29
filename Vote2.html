@@ -36,20 +36,18 @@
 
     <div id="result"></div>
     <div id="voteCount"></div>
-    <div id="allVotes"></div>
     <div id="progressBar">
         <div class="progress"></div>
     </div>
 
     <div id="thankYouMessage" style="display: none;">Thank you for your vote!</div>
+    <div id="allVotes"></div>
 
     <script>
         var votes = {
-            'A': 0,
-            'B': 0
+            'A': [],
+            'B': []
         };
-
-        var allVotes = []; // Array to store all submitted votes
 
         var formSubmitted = false;
 
@@ -59,13 +57,11 @@
                 var selectedOption = document.querySelector('input[name="vote"]:checked');
                 if (selectedOption) {
                     var voteValue = selectedOption.value;
-                    votes[voteValue]++;
-                    allVotes.push(voteValue); // Add the vote to the array of all votes
+                    votes[voteValue].push(new Date().toLocaleString()); // Store the timestamp of the vote
                     document.getElementById("result").innerHTML = "You voted for Option " + voteValue;
-                    updateVoteCount();
+                    updateVoteCount(); // Update vote count after vote submission
                     updateProgressBar();
                     showThankYouMessage();
-                    displayAllVotes();
                     disableForm();
                     formSubmitted = true;
                 } else {
@@ -77,13 +73,13 @@
         function updateVoteCount() {
             var voteCountHTML = "Vote Count:<br>";
             for (var option in votes) {
-                voteCountHTML += "Option " + option + ": " + votes[option] + "<br>";
+                voteCountHTML += "Option " + option + ": " + votes[option].length + "<br>";
             }
             document.getElementById("voteCount").innerHTML = voteCountHTML;
         }
 
         function updateProgressBar() {
-            var totalVotes = votes['A'] + votes['B'];
+            var totalVotes = votes['A'].length + votes['B'].length;
             var progress = (totalVotes / 100) * 100; // Assuming 100 votes represents 100%
             document.querySelector('.progress').style.width = progress + '%';
         }
@@ -100,12 +96,15 @@
         }
 
         function displayAllVotes() {
-            var allVotesHTML = "All Votes:<br>";
-            allVotes.forEach(function(vote, index) {
-                allVotesHTML += "Vote " + (index + 1) + ": Option " + vote + "<br>";
-            });
+            var allVotesHTML = "<h2>All Votes:</h2>";
+            for (var option in votes) {
+                allVotesHTML += "<p>Option " + option + " Votes: " + votes[option].join(', ') + "</p>";
+            }
             document.getElementById("allVotes").innerHTML = allVotesHTML;
         }
+
+        // Call displayAllVotes function to display all votes
+        displayAllVotes();
     </script>
 </body>
 </html>
