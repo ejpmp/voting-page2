@@ -9,6 +9,17 @@
         max-width: 400px;
         margin: 0 auto;
     }
+    #progress-bar {
+        width: 100%;
+        background-color: #f0f0f0;
+        border: 1px solid #ccc;
+        margin-bottom: 10px;
+    }
+    #progress {
+        width: 0%;
+        height: 20px;
+        background-color: #4caf50;
+    }
 </style>
 </head>
 <body>
@@ -24,6 +35,9 @@
         <button type="submit">Vote</button>
     </form>
     <div id="result"></div>
+    <div id="progress-bar">
+        <div id="progress"></div>
+    </div>
 </div>
 
 <script>
@@ -34,13 +48,29 @@
         option3: 0
     };
 
+    // Simulated progress bar
+    function simulateProgress() {
+        let progressBar = document.getElementById("progress");
+        let width = 0;
+        let interval = setInterval(frame, 10);
+        function frame() {
+            if (width >= 100) {
+                clearInterval(interval);
+            } else {
+                width++;
+                progressBar.style.width = width + '%';
+            }
+        }
+    }
+
     // Function to update vote counts and display results
     function updateVoteCounts() {
         let resultDiv = document.getElementById("result");
         resultDiv.innerHTML = `
             Option 1: ${voteCounts.option1} vote(s)<br>
             Option 2: ${voteCounts.option2} vote(s)<br>
-            Option 3: ${voteCounts.option3} vote(s)
+            Option 3: ${voteCounts.option3} vote(s)<br><br>
+            Total Votes: ${voteCounts.option1 + voteCounts.option2 + voteCounts.option3}
         `;
     }
 
@@ -53,8 +83,12 @@
             voteCounts[vote]++;
             // Display results
             updateVoteCounts();
-            // Simulate sending vote data to server (You can replace this with actual server-side code)
-            console.log("Voted for: ", vote);
+            // Simulate progress
+            simulateProgress();
+            // Save vote data in localStorage (Simulated, not secure)
+            let allVotes = JSON.parse(localStorage.getItem('votes')) || {};
+            allVotes[vote] = (allVotes[vote] || 0) + 1;
+            localStorage.setItem('votes', JSON.stringify(allVotes));
         } else {
             alert("Please select an option to vote.");
         }
