@@ -36,6 +36,7 @@
 
     <div id="result"></div>
     <div id="voteCount"></div>
+    <div id="allVotes"></div>
     <div id="progressBar">
         <div class="progress"></div>
     </div>
@@ -48,6 +49,8 @@
             'B': 0
         };
 
+        var allVotes = []; // Array to store all submitted votes
+
         var formSubmitted = false;
 
         document.getElementById("votingForm").addEventListener("submit", function(event) {
@@ -57,10 +60,12 @@
                 if (selectedOption) {
                     var voteValue = selectedOption.value;
                     votes[voteValue]++;
+                    allVotes.push(voteValue); // Add the vote to the array of all votes
                     document.getElementById("result").innerHTML = "You voted for Option " + voteValue;
-                    updateVoteCount(); // Update vote count after vote submission
+                    updateVoteCount();
                     updateProgressBar();
                     showThankYouMessage();
+                    displayAllVotes();
                     disableForm();
                     formSubmitted = true;
                 } else {
@@ -93,6 +98,15 @@
                 input.disabled = true;
             });
         }
+
+        function displayAllVotes() {
+            var allVotesHTML = "All Votes:<br>";
+            allVotes.forEach(function(vote, index) {
+                allVotesHTML += "Vote " + (index + 1) + ": Option " + vote + "<br>";
+            });
+            document.getElementById("allVotes").innerHTML = allVotesHTML;
+        }
     </script>
 </body>
 </html>
+
